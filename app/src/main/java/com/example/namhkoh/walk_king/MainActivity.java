@@ -16,40 +16,28 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-    private SensorManager mSensorManager;
-    private Sensor mSensor;
-    private boolean isSensorPresent = false;
-    private TextView mStepsSinceReboot;
+    private SensorManager sensorManager;
+    private Sensor sensor;
+    private TriggerEventListener triggerEventListener;
+
+    private TextView stepCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mStepsSinceReboot = (TextView) findViewById(R.id.stepsReboot);
-        mSensorManager = (SensorManager) this.getSystemService((Context.SENSOR_SERVICE));
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
-            mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-            isSensorPresent = true;
-        } else {
-            isSensorPresent = false;
-        }
-    }
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!isSensorPresent){
-            mSensorManager.registerListener(this,mSensor,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!isSensorPresent) {
-            mSensorManager.unregisterListener(this);
-        }
+        triggerEventListener = new TriggerEventListener() {
+            @Override
+            public void onTrigger(TriggerEvent event) {
+                stepCount = (TextView) findViewById(R.id.stepsReboot);
+                stepCount.setText(sensor.getName());
+                System.out.println("Hello world");
+            }
+        };
     }
 
     /**
