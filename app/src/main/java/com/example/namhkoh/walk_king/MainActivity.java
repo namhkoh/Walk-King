@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if (running) {
             stepValue.setText(String.valueOf(event.values[0]));
-            Log.e("STEPSSSS",stepValue.toString());
+            Log.e("STEPS",stepValue.toString());
         }
     }
 
