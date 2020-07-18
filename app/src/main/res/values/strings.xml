@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Walk-King</string>
     <string name="Steps">StepCount</string>
-    <string name="StepValue">StepValue</string>
+    <string name="StepValue">0</string>
 </resources>
